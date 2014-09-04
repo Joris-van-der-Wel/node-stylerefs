@@ -1,0 +1,5 @@
+/* bar.css */
+/* This will cause a syntax error if it is included as a node module */
+.bar {
+        background: green;
+}

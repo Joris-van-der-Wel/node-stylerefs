@@ -1,0 +1,84 @@
+
+stylerefs [FILES] OPTIONS
+
+  Walk the dependency graph of your node modules to look for
+  CSS/LESS/SCSS/Stylus file reference annotations. These files can then be
+  bundled into a single CSS file.
+
+USAGE:
+
+  Each node.js module given in FILES is recursively statically analyzed for
+  require() calls, this results in a list of all node modules that you are
+  dependent on. Node modules in this list can define references to stylesheet
+  files using a simple annotation:
+
+     require('static-reference')('./myfile.less', 'filter', 'keyword');
+
+  Note that such a statement has no effect at run time ('static-reference' is a dummy
+  package that does nothing).
+
+  This command outputs a bundle containing all of the referenced stylesheets,
+  using @import statements or using concatenation.
+
+EXAMPLE:
+
+    stylerefs entrypoint.js --filter 'less || css' --concat | lessc - >bundle.css
+
+  The import option is useful because it lets you create source maps that refer to
+  your original files (supported by chome dev tools):
+
+    stylerefs entrypoint.js --filter 'less || css' --import > bundle.less
+    lessc --line-numbers=comments --source-map-map-inline bundle.less > bundle.css
+
+
+The import option should work with less, scss and stylus.
+
+OPTIONS are:
+  -h,  --help
+
+  -v,  --verbose              Log debugging messages to STDERR, such as files 
+                              that are being skipped for some reason.
+
+  -f,  --filter=EXPRESSION    Only include references that match the given
+                              boolean EXPRESSION, this expression is evaluated
+                              upon the given arguments in the reference 
+                              annotation, and the file extension of the file it
+                              refers to:
+                              --filter "css && abc && (def || ghj)" will match
+                                require('static-reference')('./bla.css', 'abc', 
+                                        'def');
+                              and
+                                require('static-reference')('./bla.css', 'abc',
+                                        'ghj');
+                              If --filter is given multiple times, all
+                              EXPRESSIONs must match.
+                              If no --filter is given, a default is implied:
+                              --filter "css"
+
+  -i,  --import               Output a single file containing only @import
+                              statements to all referenced stylesheet files.
+                              These @import statements are compatible with LESS,
+                              SCSS and Stylus. And will result in a single large
+                              CSS bundle when you compile the output of this
+                              command. This option is implied if neither
+                              --concat nor --json is given.
+
+       --relative=RELPATH     Change the path that all generated file paths are
+                              relative to. If this option is not given, RELPATH
+                              defaults to the current working directory.
+                              Use --relative=/ to generate absolute paths.
+
+  -c,  --concat               Output the referenced stylesheet files by
+                              concatenating them. This is best for plain CSS
+                              files. The preprocessor languages can perform such
+                              concatenation for you by using @import statements,
+                              this is the prefered method because this lets you
+                              generate proper source maps for debugging.
+
+  -j,  --json                 Output module-deps compatible JSON instead of CSS
+
+       --module-deps=SUBARG   Pass options to the "module-deps" module,
+                              accepted options are transform and
+                              globalTransform:
+                              --module-deps [--transform TRANSFORM]
+                              Note: shorthands such as "-t" will not work here.

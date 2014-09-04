@@ -1,0 +1,98 @@
+{
+  "name": "stylerefs",
+  "version": "0.0.0",
+  "description": "walk the dependency graph of your modules to look for CSS/LESS/SASS/Stylus file reference annotations. These files can then be bundled into a single CSS file.",
+  "main": "lib/StyleRefsStream.js",
+  "directories": {
+    "lib": "./lib"
+  },
+  "bin": {
+    "stylerefs": "bin/stylerefs.js"
+  },
+  "scripts": {
+    "test": "istanbul cover ./node_modules/nodeunit/bin/nodeunit test/StyleRefsStream.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/Joris-van-der-Wel/node-stylerefs"
+  },
+  "keywords": [
+    "analyze",
+    "annotate",
+    "asset",
+    "ast",
+    "browser",
+    "compiler",
+    "css",
+    "dependency",
+    "exports",
+    "file",
+    "graph",
+    "less",
+    "lesscss",
+    "link",
+    "merge",
+    "meta",
+    "metadata",
+    "module",
+    "parser",
+    "preprocess",
+    "reference",
+    "relationship",
+    "require",
+    "resource",
+    "sass",
+    "scss",
+    "source",
+    "static",
+    "static-reference",
+    "style",
+    "styles",
+    "stylesheet",
+    "stylus",
+    "view"
+  ],
+  "author": "Joris van der Wel <joris@jorisvanderwel.com>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/Joris-van-der-Wel/node-stylerefs/issues"
+  },
+  "homepage": "https://github.com/Joris-van-der-Wel/node-stylerefs",
+  "dependencies": {
+    "JSONStream": "^0.9.0",
+    "inherits": "^2.0.1",
+    "module-deps": "^3.5.5",
+    "module-references": "^0.0.0",
+    "readable-stream": "^1.0.27-1",
+    "resolve": "^1.0.0",
+    "subarg": "0.0.1",
+    "static-reference": "^1.0.0"
+  },
+  "devDependencies": {
+    "istanbul": "^0.3.1",
+    "jshint": "^2.5.5",
+    "nodeunit": "^0.9.0"
+  },
+  "jshintConfig": {
+    "node": true,
+    "bitwise": true,
+    "camelcase": true,
+    "curly": true,
+    "eqeqeq": true,
+    "forin": false,
+    "freeze": true,
+    "immed": true,
+    "indent": 8,
+    "latedef": true,
+    "newcap": true,
+    "noarg": true,
+    "nonbsp": true,
+    "nonew": true,
+    "quotmark": "single",
+    "undef": true,
+    "unused": "vars",
+    "strict": true,
+    "laxbreak": true,
+    "-W064": true
+  }
+}
