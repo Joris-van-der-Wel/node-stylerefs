@@ -1,6 +1,6 @@
 {
   "name": "stylerefs",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "description": "walk the dependency graph of your modules to look for CSS/LESS/SASS/Stylus file reference annotations. These files can then be bundled into a single CSS file.",
   "main": "lib/StyleRefsStream.js",
   "directories": {
@@ -62,7 +62,7 @@
     "JSONStream": "^0.9.0",
     "inherits": "^2.0.1",
     "module-deps": "^3.5.5",
-    "module-references": "^0.0.0",
+    "module-references": "^0.0.1",
     "readable-stream": "^1.0.27-1",
     "resolve": "^1.0.0",
     "subarg": "0.0.1",
