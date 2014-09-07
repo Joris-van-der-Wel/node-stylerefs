@@ -84,3 +84,9 @@ OPTIONS are:
                                 globalTransform:
                                 --module-deps [--transform TRANSFORM]
                                 Note: shorthands such as "-t" will not work here.
+
+INSTALL:
+--------
+With [npm](http://npmjs.org), to install the module do:
+
+    npm install -g stylerefs
