@@ -7,37 +7,7 @@ var ModuleReferencesStream = require('module-references');
 var subarg = require('subarg');
 var fs = require('fs');
 var path = require('path');
-var nodeResolve = require('resolve');
 var JSONStream = require('JSONStream');
-
-function moduleResolver(id, parent, cb)
-{
-        nodeResolve(
-                id, 
-                { basedir: path.dirname(parent.filename)}, 
-                function(err, path, packag)
-                {
-                        if (err)
-                        {
-                                cb(err, path, packag);
-                                return;
-                        }
-                        
-                        if (nodeResolve.isCore(path))
-                        {
-                                cb(err, null, null);
-                                return;
-                        }
-                        
-                        cb(err, path, packag);
-                }
-        );
-}
-
-function coreModuleFilter(id)
-{
-        return !nodeResolve.isCore(id);
-}
 
 function command(argv, stdin, stdout, cwd)
 {
@@ -68,8 +38,8 @@ function command(argv, stdin, stdout, cwd)
         // module-deps //
         moduleDepsOpts = argv['module-deps'] || {};
         
-        moduleDepsOpts.resolve = moduleResolver;
-        moduleDepsOpts.filter = coreModuleFilter;
+        moduleDepsOpts.resolve = StyleRefsStream.moduleResolver;
+        moduleDepsOpts.filter = StyleRefsStream.coreModuleFilter;
         if (moduleDepsOpts.ignoreMissing === undefined)
         {
                 // we want a default of true instead of false
