@@ -80,7 +80,7 @@ function command(argv, stdin, stdout, cwd)
         // else if (argv.import)
         
         moduleRefs = ModuleReferencesStream({
-                // no nead to read file content if only @import rules are being generated
+                // no need to read file content if only @import rules are being generated
                 readMode: outputMode === 'import' ? false : 'text',
                 filter: argv.filter
         });
