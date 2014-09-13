@@ -29,6 +29,7 @@
     "exports",
     "file",
     "graph",
+    "gruntplugin",
     "less",
     "lesscss",
     "link",

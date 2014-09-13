@@ -87,6 +87,48 @@ OPTIONS are:
 
 INSTALL:
 --------
-With [npm](http://npmjs.org), to install the module do:
+To install the CLI with [npm](http://npmjs.org) use:
 
     npm install -g stylerefs
+
+GRUNT:
+------
+This package also exposes a [grunt](http://gruntjs.com/) task. Here is an example Gruntfile:
+
+```javascript
+
+module.exports = function(grunt)
+{
+    grunt.initConfig({
+        pkg: grunt.file.readJSON('package.json'),
+        stylerefs: {
+            options: {
+                outputMode: 'import', // or 'concat' or 'json'
+                filter: 'less && !mobile', // filter expression
+                //filter: function(args) { return args.indexOf('less') >= 0; },
+                pathsRelativeTo: '/foo/bar' // default is CWD
+            },
+            build: {
+                src: ['foo.js', 'bar.js'],
+                dest: 'generated-web/bundle.less'
+            }
+        },
+        less: {
+            options: {
+                dumpLineNumbers: 'comments',
+                sourceMap: true
+            },
+            build: {
+                src: ['generated-web/bundle.less'],
+                dest: 'generated-web/bundle.css'
+            }
+        }
+    });
+
+    grunt.loadNpmTasks('stylerefs');
+    grunt.loadNpmTasks('grunt-contrib-less');
+
+    grunt.registerTask('default', ['stylerefs', 'less']);
+};
+
+```
