@@ -93,7 +93,11 @@ To install the CLI with [npm](http://npmjs.org) use:
 
 GRUNT:
 ------
-This package also exposes a [grunt](http://gruntjs.com/) task. Here is an example Gruntfile:
+This package also exposes a [grunt](http://gruntjs.com/) task. To install use: 
+
+    npm install stylerefs --save-dev
+
+Here is an example Gruntfile:
 
 ```javascript
 
