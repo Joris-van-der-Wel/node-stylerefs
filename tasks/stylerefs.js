@@ -48,7 +48,7 @@ function handleFile(grunt, options, file, done)
 
         try
         {
-                stream.pipe(fs.createWriteStream(file.dest, {encoding: 'utf8'}));
+                stream = stream.pipe(fs.createWriteStream(file.dest, {encoding: 'utf8'}));
         }
         catch(err)
         {
