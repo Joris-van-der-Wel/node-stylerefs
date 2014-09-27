@@ -72,7 +72,7 @@ function handleFile(grunt, options, file, done)
                 done(error);
         });
 
-        stream.on('end', function()
+        stream.on('finish', function()
         {
                 done(null);
         });
