@@ -91,6 +91,11 @@ function command(argv, stdin, stdout, cwd)
                 {
                         console.warn('*** Filtered reference', relPath, '(', args,')');
                 });
+
+                moduleRefs.on('ignoreInput', function(row)
+                {
+                        console.warn('*** Ignoring input file', row.file);
+                });
         }
 
         stream = stream.pipe(moduleRefs);

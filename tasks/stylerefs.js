@@ -32,6 +32,11 @@ function handleFile(grunt, options, file, done)
                 grunt.verbose.writeln('Filtered reference "' + relPath + '" (' + args + ')');
         });
 
+        moduleRefs.on('ignoreInput', function(row)
+        {
+                grunt.verbose.writeln('Ignoring input file', row.file);
+        });
+
         stream = stream.pipe(moduleRefs);
 
         if (options.outputMode === 'json')
