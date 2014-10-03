@@ -143,7 +143,7 @@ module.exports = {
                 {
                         test.strictEqual(
                                 data, 
-                                '@import "'+fooCssFile.replace(/\\/g, '\\\\')+'";\n'
+                                '@import "'+fooCssFile.replace(/\\/g, '/')+'";\n'
                         );
                 });
                 
