@@ -1,38 +1,128 @@
 stylerefs [FILES] OPTIONS
 =========================
 
-  Walk the dependency graph of your node modules to look for
+  _Walk the dependency graph of your node modules to look for
   CSS/LESS/SCSS/Stylus file reference annotations. These files can then be
-  bundled into a single CSS file.
+  bundled into a single CSS file._
 
 USAGE:
 ------
 
-Each node.js module given in FILES is recursively statically analyzed for
-require() calls, this results in a list of all node modules that you are
-dependent on. Node modules in this list can define references to stylesheet
-files using a simple annotation:
+Each node.js module passed to this command is (recursively) analyzed for lines
+containing `require()`, this results in a list of all javascript modules that might
+be used in your project. All of those javascript modules can define a reference to
+a stylesheet using a simple annotation:
 
     require('static-reference')('./myfile.less', 'filter', 'keyword');
 
-Note that such a statement has no effect at run time ('static-reference' is a dummy
+This line has no effect if you run your javascript ('static-reference' is a dummy
 package that does nothing).
 
-This command outputs a bundle containing all of the referenced stylesheets,
-using @import statements or using concatenation.
+This command outputs a bundle of CSS, or LESS, or SASS, etc.
 
-EXAMPLE:
---------
+TUTORIAL:
+---------
+_This example can be found in the `example/` directory of this package._
 
-    stylerefs entrypoint.js --filter 'less || css' --concat | lessc - >bundle.css
+`first-example.js`:
 
-The import option is useful because it lets you create source maps that refer to 
-your original files (supported by chome dev tools):
+```javascript
+var bar = require('./foo/bar.js');
+require('static-reference')('./first-example.css');
+console.log('hello', bar);
+```
 
-    stylerefs entrypoint.js --filter 'less || css' --import > bundle.less
+`foo/bar.js`:
+
+```javascript
+require('static-reference')('./bar.css');
+module.exports = 'world!';
+```
+
+If you run `node first-example.js`, you will see a simple `hello world!` message.
+
+If you now execute this command:
+
+    stylerefs first-example.js --concat
+
+You wil get the following output:
+
+```CSS
+/* foo/bar.css */
+.bar {
+    color: blue;
+}
+
+/* first-example.css */
+.first-example {
+    color: red;
+}
+```
+
+---
+
+It is also possible to output `@import` statements:
+
+    stylerefs first-example.js --import
+
+Will give you:
+
+    @import "foo/bar.css";
+    @import "first-example.css";
+
+---
+
+Import statements work well in combination with a preprecessor such as [less](https://www.npmjs.com/package/less).
+
+
+`second-example.js`:
+
+```javascript
+var baz = require('./foo/baz.js');
+require('static-reference')('./second-example.less');
+console.log('hello', baz);
+```
+
+`second-example.less`:
+
+```LESS
+/* second-example.less */
+.second-example {
+        color: green;
+        &:hover {
+                color: red;
+        }
+}
+```
+
+If you now run:
+
+    stylerefs second-example.js --filter 'less' --import | lessc -
+
+You will get:
+
+```CSS
+/* foo/baz.less */
+.baz {
+  width: 20px;
+}
+/* second-example.less */
+.second-example {
+  color: green;
+}
+.second-example:hover {
+  color: red;
+}
+```
+
+Because stylerefs is generating `@import` statements, less will show you any error with the correct line number. It also means that source maps will work properly:
+
+    stylerefs second-example.js --filter 'less' --import > bundle.less
     lessc --line-numbers=comments --source-map-map-inline bundle.less > bundle.css
 
-The import option should work with less, scss and stylus. 
+Source mapping is supported by various browser developer tools and shows you the original line number when debugging your CSS selectors.
+
+The import option should work with less, scss and stylus.
 
 OPTIONS are:
 ------------
