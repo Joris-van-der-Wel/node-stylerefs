@@ -65,7 +65,7 @@
     "inherits": "^2.0.1",
     "module-deps": "^3.5.6",
     "module-references": "^1.0.0",
-    "readable-stream": "^1.0.27-1",
+    "readable-stream": "^2.0.2",
     "resolve": "^1.0.0",
     "static-reference": "^1.0.0",
     "subarg": "^1.0.0"
